@@ -3,7 +3,6 @@ import { colors } from '@styles/colors';
 
 export const globalStyles = StyleSheet.create({
   container: {
-    paddingTop: 20,
     height: '100%',
     width: '100%',
     backgroundColor: colors.orange_100,

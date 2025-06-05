@@ -22,4 +22,5 @@ export { reservationStyles } from '@styles/components/reservationStyles';
 export { adminStyles } from '@styles/components/adminStyles';
 export { volunteerProfileStyles } from '@styles/components/volunteerProfileStyles';
 export { profileBadgeStyles } from '@styles/components/profileBadgeStyles';
-export { createShiftStyles } from '@styles/components/shift/createShiftStyles'
+export { createShiftStyles } from '@styles/components/shift/createShiftStyles';
+export { headerStyles } from '@styles/components/headerStyles'
