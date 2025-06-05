@@ -6,7 +6,7 @@ import { Text, View } from 'react-native';
 import React from 'react';
 import UserProfile from '@typefiles/UserProfile';
 
-const ProfileCard = ({ first_name, last_name, phone, birthdate, email }: UserProfile) => {
+const ProfileCard = ({ first_name, last_name, phone, birthdate, email, image }: UserProfile) => {
   const router = useRouter();
 
   const formatDate = (dateString?: string): string => {
@@ -18,9 +18,18 @@ const ProfileCard = ({ first_name, last_name, phone, birthdate, email }: UserPro
   return (
     <View style={profileStyles.card}>
       <View style={profileStyles.top}>
-        <View style={profileStyles.profileIconContainer}>
-          <Image source={require('@assets/images/icons/profileIcon.svg')} style={profileStyles.profileIcon} />
-        </View>
+        {image ? (
+          <View style={profileStyles.profileIconContainer}>
+            <Image
+              source={{ uri: image }}
+              style={profileStyles.profileIconFilled}
+            />
+          </View>
+        ) : (
+          <View style={profileStyles.profileIconContainer}>
+            <Image source={require('@assets/images/icons/profileIcon.svg')} style={profileStyles.profileIcon} />
+          </View>
+        )}
         <View>
           <View style={profileStyles.nameContainer}>
             <Text style={profileStyles.name}>{first_name}</Text>

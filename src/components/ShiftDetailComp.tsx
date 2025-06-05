@@ -1,14 +1,15 @@
 import { shiftCardStyles, walkShiftStyles, workShiftStyles } from '@styles/styles';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import React from 'react';
-import { ShiftTypeProps } from '@types/types';
+import { ShiftTypeProps } from '@typefiles/ShiftTypeProps';
+import React, { useEffect } from 'react';
 
-const ShiftDetailComp = ({ startTime, endTime, shiftDate, dogName, id, type, label }: ShiftTypeProps) => {
+
+const ShiftDetailComp = ({ start_time, end_time, shift_date, dogName, dogId, id, type, label }: ShiftTypeProps) => {
   const router = useRouter();
 
-  const date = new Date(shiftDate);
+  const date = new Date(shift_date);
   const dayName = date.toLocaleDateString('nl-BE', { weekday: 'long' });
   const formattedDate = date.toLocaleDateString('nl-BE', {
     day: 'numeric',
@@ -22,13 +23,18 @@ const ShiftDetailComp = ({ startTime, endTime, shiftDate, dogName, id, type, lab
     return `${parseInt(hours)}u${minutes}`;
   };
 
+
   if (type === 'work') {
     return (
       <View style={[shiftCardStyles.card, workShiftStyles.bg200]}>
-        <View>
+        <View style={shiftCardStyles.switch}>
           <Text style={[shiftCardStyles.title, workShiftStyles.cl900]}>
             {dayName.charAt(0).toUpperCase() + dayName.slice(1)}
           </Text>
+          <Text style={[shiftCardStyles.time, workShiftStyles.cl900]}>
+            {`${formatTime(start_time)} - ${formatTime(end_time)}`}
+          </Text>
+        </View>
           <Text style={[shiftCardStyles.date, workShiftStyles.cl900]}>{formattedDate}</Text>
 
           <View style={[shiftCardStyles.pill, workShiftStyles.bg500]}>
@@ -47,22 +53,20 @@ const ShiftDetailComp = ({ startTime, endTime, shiftDate, dogName, id, type, lab
             <Text style={[shiftCardStyles.tagText, workShiftStyles.cl900]}>{label}</Text>
           </View>
         </View>
-
-        <View>
-          <Text style={[shiftCardStyles.time, workShiftStyles.cl900]}>
-            {`${formatTime(startTime)} - ${formatTime(endTime)}`}
-          </Text>
-        </View>
-      </View>
     );
   }
 
   return (
     <View style={[shiftCardStyles.card, walkShiftStyles.bg200]}>
-      <View>
+      <View style={shiftCardStyles.switch}>
         <Text style={[shiftCardStyles.title, walkShiftStyles.cl900]}>
           {dayName.charAt(0).toUpperCase() + dayName.slice(1)}
         </Text>
+        
+        <Text style={[shiftCardStyles.time, walkShiftStyles.cl900]}>
+          {`${formatTime(start_time)} - ${formatTime(end_time)}`}
+        </Text>
+      </View>
         <Text style={[shiftCardStyles.date, walkShiftStyles.cl900]}>{formattedDate}</Text>
 
         <View style={[shiftCardStyles.pill, walkShiftStyles.bg600]}>
@@ -73,21 +77,17 @@ const ShiftDetailComp = ({ startTime, endTime, shiftDate, dogName, id, type, lab
           <Text style={[shiftCardStyles.pillTitle, walkShiftStyles.cl100]}>Wandel</Text>
         </View>
 
-        <View style={shiftCardStyles.tag}>
+        <TouchableOpacity
+          onPress={() => router.push({ pathname: '/pages/DogDetail/[id]', params: { id: dogId } })}
+          style={shiftCardStyles.tag}
+        >
           <Image
             source={require('@assets/images/icons/dog-green.svg')}
             style={shiftCardStyles.tagImage}
           />
           <Text style={[shiftCardStyles.tagText, walkShiftStyles.cl900]}>{dogName}</Text>
-        </View>
+        </TouchableOpacity>
       </View>
-
-      <View>
-        <Text style={[shiftCardStyles.time, walkShiftStyles.cl900]}>
-          {`${formatTime(startTime)} - ${formatTime(endTime)}`}
-        </Text>
-      </View>
-    </View>
   );
 };
 

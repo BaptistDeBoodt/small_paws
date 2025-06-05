@@ -19,7 +19,7 @@ const useUser = () => {
 
       const { data, error } = await supabase
         .from('Users')
-        .select('first_name, last_name, phone, birthdate, level, role')
+        .select('first_name, last_name, phone, birthdate, level, role, image')
         .eq('id', session.user.id)
         .single();
 
@@ -36,7 +36,8 @@ const useUser = () => {
         phone: data.phone ?? '', 
         birthdate: data.birthdate ?? '',
         level: data.level ?? 0,
-        role: data.role ?? 0
+        role: data.role ?? 0,
+        image: data.image ?? '',
       });
 
       console.log('👨 [useUser] User profile fetched successfully:');

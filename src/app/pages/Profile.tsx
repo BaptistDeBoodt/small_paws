@@ -32,6 +32,7 @@ const Profile = () => {
     <PageLayout>
       <Text style={globalStyles.pageTitle}>Profiel</Text>
       <View style={globalStyles.section}>
+      {profile && (  
         <ProfileCard
           first_name={profile.first_name}
           last_name={profile.last_name}
@@ -39,10 +40,14 @@ const Profile = () => {
           email={profile.email}
           birthdate={profile.birthdate}
           level={profile.level}
+          image={profile.image}
         />
+      )}
       </View>
       <View style={globalStyles.section}>
+      {profile && ( 
         <BadgeCard level={profile.level} />
+      )}
       </View>
       <View style={globalStyles.section}>
         <Button title="Uitloggen" onPress={handleLogout} />

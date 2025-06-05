@@ -11,7 +11,7 @@ const useDogs = () => {
     const fetchDogs = async () => {
       const { data, error } = await supabase
         .from('Dogs')
-        .select('id, name, breed, birthdate, sex, level');
+        .select('id, name, breed, birthdate, sex, level, image');
 
       if (error) {
         setError(error.message);

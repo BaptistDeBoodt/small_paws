@@ -1,6 +1,6 @@
 type ShiftTypeProps = {
   id?: string;
-  type: string;
+  type: 'walk' | 'work';
   start_time: string;
   end_time: string;
   shift_date: string;

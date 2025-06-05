@@ -42,6 +42,7 @@ const Dogs = () => {
               <DogProfile
                 key={index}
                 id={dog.id}
+                image={dog.image}
                 name={dog.name}
                 breed={dog.breed}
                 birthdate={dog.birthdate}

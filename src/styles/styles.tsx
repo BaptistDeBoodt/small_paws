@@ -21,3 +21,5 @@ export { editProfileStyles } from '@styles/components/editProfileStyles';
 export { reservationStyles } from '@styles/components/reservationStyles';
 export { adminStyles } from '@styles/components/adminStyles';
 export { volunteerProfileStyles } from '@styles/components/volunteerProfileStyles';
+export { profileBadgeStyles } from '@styles/components/profileBadgeStyles';
+export { createShiftStyles } from '@styles/components/shift/createShiftStyles'

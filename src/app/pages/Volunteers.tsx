@@ -1,5 +1,5 @@
 import AdminAddButton from '@components/admin/AdminAddButton';
-import DogProfile from '@components/dogProfile/DogProfile';
+import VolunteerProfile from '@components/volunteerProfile/VolunteerProfile';
 import Loading from '@components/Loading';
 import Message from '@components/Message';
 import useUsers from '@hooks/Users/useUsers';
@@ -10,15 +10,13 @@ import { Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 
 const Volunteers = () => {
-  const { volunteers, loading, error } = useUsers();
+  const { profile, loading, error } = useUser();
+  const isAdmin = profile?.role === 1;
+  const { volunteers } = useUsers(isAdmin);
+    
   const router = useRouter();
-  const { profile } = useUser();
 
-  if (loading || !profile) return null;
-
-  const isAdmin = profile.role === 1;
-
-  if (loading) {
+  if (loading || !profile) {
     return (
       <PageLayout>
         <View style={globalStyles.loadingContainer}>
@@ -33,12 +31,13 @@ const Volunteers = () => {
       <PageLayout>
         <Text style={globalStyles.pageTitle}>Vrijwilligers</Text>
         {error && <Text style={{ color: 'red' }}>⚠️ {error}</Text>}
-        {Volunteers.length === 0 && (
-          <Message message='Geen vrijwilligers gevonden'/>
-        )}
-        {volunteers.length > 0 && (
-          <View style={globalStyles.section}>
-            {volunteers.map((volunteer, index) => (
+        {volunteers.filter((v) => v.role === 0).length === 0 ? (
+        <Message message="Geen vrijwilligers gevonden" />
+      ) : (
+        <View style={globalStyles.section}>
+          {volunteers
+            .filter((volunteer) => volunteer.role === 0)
+            .map((volunteer, index) => (
               <VolunteerProfile
                 key={index}
                 id={volunteer.id}
@@ -49,17 +48,18 @@ const Volunteers = () => {
                 email={volunteer.email}
                 level={volunteer.level}
                 role={volunteer.role}
+                image={volunteer.image}
               />
             ))}
-          </View>
-        )}
+        </View>
+      )}
         <View style={globalStyles.m_space} />
       </PageLayout>
 
       {isAdmin && (
       <View style={globalStyles.buttonContainer}>
         <AdminAddButton
-          onPress={() => router.push('/pages/DogAdd')}
+          onPress={() => router.push('/pages/VolunteerAdd')}
         />
       </View>
       )}

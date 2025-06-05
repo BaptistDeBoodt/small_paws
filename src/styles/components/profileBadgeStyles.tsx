@@ -1,22 +1,26 @@
 import { StyleSheet } from 'react-native';
 import { colors } from '@styles/colors';
 
-export const reservationStyles = StyleSheet.create({
-    card : {
+export const profileBadgeStyles = StyleSheet.create({
+    card: {
         width: '100%',
         backgroundColor: colors.orange_100,
         borderRadius: 11,
-        boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.25)',
-        padding: 20,
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
         display: 'flex',
         flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        padding: 10
     },
 
-    count : {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: colors.orange_900,
+    badge: {
+        width: 80,
+        height: 80,
+    },
+
+    button: {
+        width: 50,
+        height: 50,
     }
 })

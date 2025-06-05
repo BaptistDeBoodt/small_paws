@@ -27,35 +27,52 @@ const DogProfileDetail = ({ name, breed, birthdate, sex, level, reference, image
   return (
     <>
     <View style={dogProfileDetailStyles.card}>
-        <Image
-            source={require('@assets/images/dogs/ScoobyDoo.jpg')}
+        {image ? (
+            <Image
+            source={{ uri: image }}
             style={dogProfileDetailStyles.image}
-        />
+            />
+        ) : (
+            <View style={dogProfileDetailStyles.replace_image_container}>
+            <Image
+                source={require('@assets/images/icons/dog-orange.svg')}
+                style={dogProfileDetailStyles.replace_image}
+            />
+            </View>
+        )}
         <View style={dogProfileDetailStyles.info}>
             <View style={dogProfileDetailStyles.flex}>
                 <Text style={[dogProfileDetailStyles.text, dogProfileDetailStyles.subject]}>Naam:</Text>
                 <Text style={dogProfileDetailStyles.text}>{name}</Text>
             </View>
+            {breed && (
             <View style={dogProfileDetailStyles.flex}>
                 <Text style={[dogProfileDetailStyles.text, dogProfileDetailStyles.subject]}>Ras:</Text>
                 <Text style={dogProfileDetailStyles.text}>{breed}</Text>
             </View>
+            )}
+            {sex && (
             <View style={dogProfileDetailStyles.flex}>
                 <Text style={[dogProfileDetailStyles.text, dogProfileDetailStyles.subject]}>Geslacht:</Text>
                 <Text style={dogProfileDetailStyles.text}>{getGenderLabel(sex)}</Text>
             </View>
+            )}
+            {birthdate && (
             <View style={dogProfileDetailStyles.flex}>
                 <Text style={[dogProfileDetailStyles.text, dogProfileDetailStyles.subject]}>Geboren:</Text>
                 <Text style={dogProfileDetailStyles.text}>{formatDate(birthdate)}</Text>
             </View>
+            )}  
             <View style={dogProfileDetailStyles.flex}>
                 <Text style={[dogProfileDetailStyles.text, dogProfileDetailStyles.subject]}>Niveau:</Text>
                 <Text style={dogProfileDetailStyles.text}>{getLevelColor(level)}</Text>
             </View>
+            {reference && (
             <View style={dogProfileDetailStyles.flex}>
                 <Text style={[dogProfileDetailStyles.text, dogProfileDetailStyles.subject]}>Referentie:</Text>
                 <Text style={dogProfileDetailStyles.text}>{reference}</Text>
             </View>
+            )}
         </View>
     </View>
     </>

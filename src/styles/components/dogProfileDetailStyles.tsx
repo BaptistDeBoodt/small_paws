@@ -11,13 +11,6 @@ export const dogProfileDetailStyles = StyleSheet.create({
         position: 'relative',
     },
 
-    image: {
-        width: '100%',
-        height: 300,
-        borderTopLeftRadius: 11,
-        borderTopRightRadius: 11,
-    },
-
     info: {
         padding: 20,
         display: 'flex',
@@ -38,5 +31,28 @@ export const dogProfileDetailStyles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         marginBottom: 10,
+    },
+
+    image: {
+        width: '100%',
+        height: 300,
+        borderTopLeftRadius: 11,
+        borderTopRightRadius: 11,
+    },
+
+    replace_image_container: {
+        width: '100%',
+        height: 300,
+        borderTopLeftRadius: 11,
+        borderTopRightRadius: 11,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colors.orange_200
+    },
+
+    replace_image: {
+        height: 100,
+        width: 100,
     },
 })

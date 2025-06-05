@@ -37,11 +37,12 @@ const ShiftDetail = () => {
         {shift && (
           <ShiftDetailComp
               type={shift.type}
-              startTime={shift.start_time}
-              endTime={shift.end_time}
-              shiftDate={shift.shift_date}
+              start_time={shift.start_time}
+              end_time={shift.end_time}
+              shift_date={shift.shift_date}
               label={shift.label}
               dogName={shift.Dogs?.name ?? 'Onbekende hond'}
+              dogId={shift.Dogs?.id ?? 'Onbekende hond'}
           />
         )}
         </View>
@@ -52,6 +53,7 @@ const ShiftDetail = () => {
             shiftId={typeof id === 'string' ? id : id?.[0] ?? ''}
             crew={shift.crew ?? 0}
             request={shift.request ?? 0}
+            dogLevel={shift.Dogs?.level ?? null}
           />
         )}
         </View>

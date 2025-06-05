@@ -6,20 +6,38 @@ import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import UserProfile from '@typefiles/UserProfile';
 
-const VolunteerProfile = ({ id, first_name, last_name, email }: UserProfile) => {
+const VolunteerProfile = ({ id, first_name, last_name, level, image }: UserProfile) => {
   const router = useRouter();
+
+  const badges = [
+    require('@assets/images/icons/badge-green.svg'),
+    require('@assets/images/icons/badge-orange.svg'),
+    require('@assets/images/icons/badge-red.svg'),
+  ];
 
   return (
     <TouchableOpacity onPress={() => router.push({ pathname: '/pages/VolunteerDetail/[id]', params: { id } })} style={volunteerProfileStyles.card}>
-      <Image
-        // source={require(`@assets/images/dogs/${name}.jpg`)} // eventueel later
-        style={volunteerProfileStyles.image}
-      />
+      {image ? (
+        <Image
+          source={{ uri: image }}
+          style={volunteerProfileStyles.image}
+        />
+      ) : (
+        <View 
+          style={volunteerProfileStyles.image_container_empty}
+        >
+          <Image
+            source={require('@assets/images/icons/profileIcon.svg')}
+            style={volunteerProfileStyles.image_empty}
+          />
+        </View>
+      )}
       <View style={volunteerProfileStyles.info}>
-        <Text style={volunteerProfileStyles.name}>`{first_name} {last_name}`</Text>
-        <Text style={volunteerProfileStyles.text}>{email}</Text>
-        <View>
-            
+        <Text style={volunteerProfileStyles.name}>{first_name} {last_name}</Text>
+        <View style={volunteerProfileStyles.badges}>
+          {badges.slice(0, level).map((badge, index) => (
+            <Image key={index} source={badge} style={volunteerProfileStyles.badge} />
+          ))}
         </View>
       </View>
     </TouchableOpacity>

@@ -13,7 +13,7 @@ import { useState } from 'react';
 import { Text, View } from 'react-native';
 
 export default function Reservations() {
-  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedDates, setSelectedDates] = useState<string[]>([]);
   const { shifts: reservations, loading } = useShifts();
   const router = useRouter();
   const { profile } = useUser();
@@ -23,70 +23,70 @@ export default function Reservations() {
   const isAdmin = profile.role === 1;
 
   const filteredWalkShifts = reservations.filter(
-    (res) => res.type === 'walk' && res.shift_date === selectedDate
+    (res) => res.type === 'walk' && selectedDates.includes(res.shift_date)
   );
 
   const filteredWorkShifts = reservations.filter(
-    (res) => res.type === 'work' && res.shift_date === selectedDate
+    (res) => res.type === 'work' && selectedDates.includes(res.shift_date)
   );
-
-  if (loading) {
-    return (
-      <PageLayout>
-        <View style={globalStyles.loadingContainer}>
-          <Loading />
-        </View>
-      </PageLayout>
-    );
-  }
 
   return (
     <View style={{ flex: 1 }}>
       <PageLayout>
         <Text style={globalStyles.pageTitle}>Openstaande reserveringen</Text>
+
         <View style={globalStyles.section}>
-          <Calendar selectedDate={selectedDate} onDateChange={setSelectedDate} />
+          <Calendar selectedDates={selectedDates} onDateChange={setSelectedDates} />
         </View>
+
         <View style={globalStyles.section}>
           <Text style={globalStyles.sm_title}>Wandelingen</Text>
-          {filteredWalkShifts.length === 0 && <Message message="Geen Wandelingen" />}
-          {filteredWalkShifts.map((reservation, index) => (
-            <WalkShiftCard
-              key={index}
-              id={reservation.id}
-              type={reservation.type}
-              start_time={reservation.start_time}
-              end_time={reservation.end_time}
-              shift_date={reservation.shift_date}
-              crew={reservation.crew}
-              label={reservation.label}
-              dogName={reservation.Dogs?.name ?? 'Onbekende hond'}
-            />
-          ))}
+          {filteredWalkShifts.length === 0 ? (
+            <Message message="Geen Wandelingen" />
+          ) : (
+            filteredWalkShifts.map((reservation, index) => (
+              <WalkShiftCard
+                key={index}
+                id={reservation.id}
+                type={reservation.type}
+                start_time={reservation.start_time}
+                end_time={reservation.end_time}
+                shift_date={reservation.shift_date}
+                crew={reservation.crew}
+                label={reservation.label}
+                dogName={reservation.Dogs?.name ?? 'Onbekende hond'}
+              />
+            ))
+          )}
         </View>
+
         <View style={globalStyles.section}>
           <Text style={globalStyles.sm_title}>Taken</Text>
-          {filteredWorkShifts.length === 0 && <Message message="Geen Taken" />}
-          {filteredWorkShifts.map((reservation, index) => (
-            <WorkShiftCard
-              key={index}
-              id={reservation.id}
-              type={reservation.type}
-              start_time={reservation.start_time}
-              end_time={reservation.end_time}
-              shift_date={reservation.shift_date}
-              crew={reservation.crew}
-              label={reservation.label}
-            />
-          ))}
+          {filteredWorkShifts.length === 0 ? (
+            <Message message="Geen Taken" />
+          ) : (
+            filteredWorkShifts.map((reservation, index) => (
+              <WorkShiftCard
+                key={index}
+                id={reservation.id}
+                type={reservation.type}
+                start_time={reservation.start_time}
+                end_time={reservation.end_time}
+                shift_date={reservation.shift_date}
+                crew={reservation.crew}
+                label={reservation.label}
+              />
+            ))
+          )}
         </View>
+
         <View style={globalStyles.m_space} />
       </PageLayout>
-      
+
       {isAdmin && (
-      <View style={globalStyles.buttonContainer} pointerEvents="box-none">
-        <AdminAddButton onPress={() => router.push('/pages/ReservationsAdd')} />
-      </View>
+        <View style={globalStyles.buttonContainer} pointerEvents="box-none">
+          <AdminAddButton onPress={() => router.push('/pages/ReservationsAdd')} />
+        </View>
       )}
     </View>
   );

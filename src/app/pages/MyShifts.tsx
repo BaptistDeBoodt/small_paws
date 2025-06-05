@@ -10,17 +10,22 @@ import { useState } from 'react';
 import { Text, View } from 'react-native';
 
 export default function MyShifts() {
-  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedDates, setSelectedDates] = useState<string[]>([]);
   const { claimedShifts, loading } = useClaimedShifts();
 
   // Filter claimed shifts for the selected date
   const filteredWalkShifts = claimedShifts.filter(
-    (item) => item.Shifts.type === 'walk' && item.Shifts.shift_date === selectedDate
+    (item) => item.Shifts.type === 'walk' && selectedDates.includes(item.Shifts.shift_date)
   );
 
   const filteredWorkShifts = claimedShifts.filter(
-    (item) => item.Shifts.type === 'work' && item.Shifts.shift_date === selectedDate
+    (item) => item.Shifts.type === 'work' && selectedDates.includes(item.Shifts.shift_date)
   );
+
+  console.log('Selected dates:', selectedDates);
+  console.log('All shift dates:', claimedShifts.map(s => s.Shifts.shift_date));
+
+
 
   if (loading) {
     return (
@@ -37,7 +42,10 @@ export default function MyShifts() {
       <Text style={globalStyles.pageTitle}>Mijn Shifts</Text>
 
       <View style={globalStyles.section}>
-        <Calendar selectedDate={selectedDate} onDateChange={setSelectedDate} />
+        <Calendar
+          selectedDates={selectedDates}
+          onDateChange={setSelectedDates}
+        />
       </View>
 
       {/* Wandelingen */}

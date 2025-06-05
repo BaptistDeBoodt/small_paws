@@ -6,7 +6,7 @@ import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { DogProfileProps } from '@typefiles/DogProfileProps';
 
-const DogProfile = ({ name, breed, birthdate, sex, level, id }: DogProfileProps) => {
+const DogProfile = ({ id, name, breed, birthdate, sex, level, image }: DogProfileProps) => {
   const router = useRouter();
 
   const getAge = (birthdate?: string): string | null => {
@@ -37,16 +37,34 @@ const DogProfile = ({ name, breed, birthdate, sex, level, id }: DogProfileProps)
   };
 
   return (
-    <TouchableOpacity onPress={() => router.push({ pathname: '/pages/DogDetail/[id]', params: { id } })} style={dogProfileStyles.card}>
-      <Image
-        // source={require(`@assets/images/dogs/${name}.jpg`)} // eventueel later
-        style={dogProfileStyles.image}
-      />
+    <TouchableOpacity
+      onPress={() => router.push({ pathname: '/pages/DogDetail/[id]', params: { id } })}
+      style={dogProfileStyles.card}
+    >
+      {image ? (
+          <Image
+            source={{ uri: image }}
+            style={dogProfileStyles.image}
+          />
+        ) : (
+          <View style={dogProfileStyles.replace_image_container}>
+            <Image
+              source={require('@assets/images/icons/dog-orange.svg')}
+              style={dogProfileStyles.replace_image}
+            />
+          </View>
+        )}
       <View style={dogProfileStyles.info}>
         <Text style={dogProfileStyles.name}>{name}</Text>
-        <Text style={dogProfileStyles.text}>{breed}</Text>
+        {breed && (
+          <Text style={dogProfileStyles.text}>{breed}</Text>
+        )}
+        {birthdate && (
         <Text style={dogProfileStyles.text}>{getAge(birthdate)}</Text>
-        <Text style={dogProfileStyles.text}>{getSexLabel(sex)}</Text>
+        )}
+        {sex && (
+          <Text style={dogProfileStyles.text}>{getSexLabel(sex)}</Text>
+        )}
       </View>
       {getLevelLabel(level) &&
         typeof dogProfileStyles[getLevelLabel(level) as keyof typeof dogProfileStyles] === 'object' && (

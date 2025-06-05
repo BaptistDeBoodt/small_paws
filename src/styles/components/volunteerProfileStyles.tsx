@@ -4,7 +4,6 @@ import { colors } from '@styles/colors';
 export const volunteerProfileStyles = StyleSheet.create({
     card: {
         width: 160,
-        height: 350,
         backgroundColor: colors.orange_100,
         borderRadius: 11,
         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
@@ -14,7 +13,7 @@ export const volunteerProfileStyles = StyleSheet.create({
 
     image: {
         width: '100%',
-        height: '55%',
+        height: 150,
         borderTopLeftRadius: 11,
         borderTopRightRadius: 11,
     },
@@ -44,6 +43,17 @@ export const volunteerProfileStyles = StyleSheet.create({
         borderBottomLeftRadius: 11,
     },
 
+    badges : {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+
+    badge : {
+        width: 30,
+        height: 30,
+    },
+
     green: {
         backgroundColor: colors.green_600,
     },
@@ -55,4 +65,20 @@ export const volunteerProfileStyles = StyleSheet.create({
     orange: {
         backgroundColor: colors.orange_500,
     },
+
+    image_container_empty: {
+        width: '100%',
+        height: 150,
+        backgroundColor: colors.orange_200,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderTopLeftRadius: 11,
+        borderTopRightRadius: 11,
+    },
+
+    image_empty: {
+        height: 70,
+        width: 70
+    }
 })

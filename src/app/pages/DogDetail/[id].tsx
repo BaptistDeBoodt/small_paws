@@ -45,12 +45,12 @@ const DogDetail = () => {
         <DogProfileDetail 
           id={dog.id}
           name={dog.name}
+          image={dog.image}
           breed={dog.breed}
           birthdate={dog.birthdate}
           sex={dog.sex}
           level={dog.level}
           reference={dog.reference}
-          image={dog.image}
         />
       )}
       </View>

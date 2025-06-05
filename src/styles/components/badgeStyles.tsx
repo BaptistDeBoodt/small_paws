@@ -23,6 +23,10 @@ export const badgeStyles = StyleSheet.create({
         marginRight: 10,
     },
 
+    new_badge:{
+        marginRight: 0,
+    },
+
     title : {
         fontSize: 20,
         color: colors.orange_900,

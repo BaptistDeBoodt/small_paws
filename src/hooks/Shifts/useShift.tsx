@@ -23,7 +23,8 @@ const useShift = (id: string) => {
           crew,
           Dogs (
             id,
-            name
+            name,
+            level
           )
         `)
         .eq('id', id)

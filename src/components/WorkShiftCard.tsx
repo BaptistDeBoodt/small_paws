@@ -31,10 +31,14 @@ const WorkShiftCard = ({ start_time, end_time, shift_date, label, id }: ShiftTyp
     <TouchableOpacity onPress={() => router.push({ pathname: '/pages/ShiftDetail/[id]', params: { id } })}
     style={[shiftCardStyles.card, workShiftStyles.bg200]}
     >
-        <View>
-        <Text style={[shiftCardStyles.title, workShiftStyles.cl900]}>
-            {dayName.charAt(0).toUpperCase() + dayName.slice(1)}
-        </Text>
+        <View style={shiftCardStyles.switch}>
+            <Text style={[shiftCardStyles.title, workShiftStyles.cl900]}>
+                {dayName.charAt(0).toUpperCase() + dayName.slice(1)}
+            </Text>
+            <Text style={[shiftCardStyles.time, workShiftStyles.cl900]}>
+                {`${formatTime(start_time)} - ${formatTime(end_time)}`}
+            </Text>
+        </View>
         <Text style={[shiftCardStyles.date, workShiftStyles.cl900]}>{formattedDate}</Text>
         <View style={[shiftCardStyles.pill, workShiftStyles.bg500]}>
             <Image
@@ -50,12 +54,6 @@ const WorkShiftCard = ({ start_time, end_time, shift_date, label, id }: ShiftTyp
             />
             <Text style={[shiftCardStyles.tagText, workShiftStyles.cl900]}>{label}</Text>
         </View> 
-        </View>
-        <View>
-        <Text style={[shiftCardStyles.time, workShiftStyles.cl900]}>
-            {`${formatTime(start_time)} - ${formatTime(end_time)}`}
-        </Text>
-        </View>  
     </TouchableOpacity>
     </>
     )

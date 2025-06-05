@@ -19,6 +19,22 @@ export const dogProfileStyles = StyleSheet.create({
         borderTopRightRadius: 11,
     },
 
+    replace_image_container: {
+        width: '100%',
+        height: '55%',
+        borderTopLeftRadius: 11,
+        borderTopRightRadius: 11,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colors.orange_200
+    },
+
+    replace_image: {
+        height: 70,
+        width: 70,
+    },
+
     info: {
         padding: 10,
     },

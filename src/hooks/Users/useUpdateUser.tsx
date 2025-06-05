@@ -13,6 +13,7 @@ const useUpdateUser = () => {
         last_name: profile.last_name,
         phone: profile.phone,
         birthdate: profile.birthdate,
+        image: profile.image
       })
       .eq('id', session.user.id);
 

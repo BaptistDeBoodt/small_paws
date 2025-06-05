@@ -2,7 +2,7 @@ import { colors } from '@styles/colors';
 import { StyleSheet } from 'react-native';
 
 export const editProfileStyles = StyleSheet.create({
-    card : {
+    card: {
         width: '100%',
         backgroundColor: colors.orange_100,
         borderRadius: 11,
@@ -12,7 +12,7 @@ export const editProfileStyles = StyleSheet.create({
         paddingBottom: 30,
     },
 
-    input : {
+    input: {
         width: '100%',
         height: 50,
         paddingHorizontal: 10,
@@ -22,5 +22,59 @@ export const editProfileStyles = StyleSheet.create({
         borderWidth: 1,
         borderColor: colors.orange_900,
         color: colors.orange_900,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center'
     },
+
+    long_input: {
+        height: 150,
+        textAlignVertical: 'top'
+    },
+
+    image_container: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+        gap: 10,
+    },
+
+    image: {
+        height: 50,
+        width: 50,
+        borderRadius: 50,
+        borderColor: colors.orange_900,
+        borderWidth: 2
+    },
+
+    radio_button_container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 16
+    },
+
+    radio_buttons: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginRight: 24
+    },
+
+    button: {
+        height: 20,
+        width: 20,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: colors.orange_900,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 8,
+    },
+
+    inside_button: {
+        height: 10,
+        width: 10,
+        borderRadius: 5,
+        backgroundColor: colors.orange_500,
+    }
 })

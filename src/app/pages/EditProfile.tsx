@@ -4,35 +4,44 @@ import PageLayout from '@layout/PageLayout';
 import useUser from '@hooks/Users/useUser';
 import useUpdateUser from '@hooks/Users/useUpdateUser';
 import { globalStyles } from '@styles/globalStyles';
-import { Text, View, TextInput } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { editProfileStyles } from '@styles/styles';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import useImagePicker from '@hooks/Images/useImagePicker';
+import { Image } from 'expo-image'
 
 const EditProfile = () => {
   const { profile, loading } = useUser();
   const { updateProfile } = useUpdateUser();
+  const { image, pickImage } = useImagePicker();
   const router = useRouter();
 
   const [first_name, setFirstName] = useState('');
   const [last_name, setLastName] = useState('');
-  const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [birthdate, setBirthdate] = useState('');
+  const [birthdate, setBirthdate] = useState<Date | null>(null);
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   useEffect(() => {
     if (profile) {
       setFirstName(profile.first_name);
       setLastName(profile.last_name);
-      setEmail(profile.email);
       setPhone(profile.phone);
-      setBirthdate(profile.birthdate);
+      setBirthdate(profile.birthdate ? new Date(profile.birthdate) : null);
     }
   }, [profile]);
 
   const handleSave = async () => {
     try {
-      await updateProfile({ first_name, last_name, phone, birthdate });
+      await updateProfile({ 
+        first_name,
+        last_name,
+        phone,
+        birthdate: birthdate ? birthdate.toISOString().split('T')[0] : '',
+        image: image || profile?.image
+      });
       router.push('/pages/Profile');
     } catch (err) {
       console.error('Fout bij opslaan:', err);
@@ -53,6 +62,20 @@ const EditProfile = () => {
       <Text style={globalStyles.pageTitle}>Profiel Aanpassen</Text>
       <View style={globalStyles.section}>
         <View style={editProfileStyles.card}>
+
+          {/* Image picker + URL fallback */}
+          <View style={editProfileStyles.image_container}>
+            {image || profile?.image ? (
+              <Image 
+                source={{ uri: image || profile.image }}
+                style={editProfileStyles.image}
+              />
+            ) : (
+              <View style={editProfileStyles.image} />
+            )}
+            <Button title="Foto" onPress={pickImage} />
+          </View>
+
           <TextInput
             style={editProfileStyles.input}
             placeholder="Voornaam"
@@ -67,22 +90,28 @@ const EditProfile = () => {
           />
           <TextInput
             style={editProfileStyles.input}
-            placeholder="Email"
-            value={email}
-            editable={false}
-          />
-          <TextInput
-            style={editProfileStyles.input}
             placeholder="Telefoonnummer"
             value={phone}
             onChangeText={setPhone}
+            keyboardType="numeric"
           />
-          <TextInput
+          <TouchableOpacity
+            onPress={() => setShowDatePicker(true)}
             style={editProfileStyles.input}
-            placeholder="Geboortedatum"
-            value={birthdate}
-            onChangeText={setBirthdate}
-          />
+          >
+            <Text>{birthdate ? birthdate.toISOString().split('T')[0] : 'Geboortedatum kiezen'}</Text>
+          </TouchableOpacity>
+          {showDatePicker && (
+            <DateTimePicker
+              value={birthdate || new Date()}
+              mode="date"
+              display="default"
+              onChange={(event, date) => {
+                setShowDatePicker(false);
+                if (date) setBirthdate(date);
+              }}
+            />
+          )}
           <Button title="Opslaan" onPress={handleSave} />
         </View>
         <View style={globalStyles.m_space} />

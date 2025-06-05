@@ -4,8 +4,9 @@ import useDogs from '@hooks/Dogs/useDogs';
 import useAddShift from '@hooks/Shifts/useAddShift';
 import PageLayout from '@layout/PageLayout';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { globalStyles } from '@styles/globalStyles';
+import { globalStyles } from '@styles/styles';
 import { editProfileStyles } from '@styles/styles';
+import { createShiftStyles } from '@styles/styles';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -21,7 +22,7 @@ const ReservationAdd = () => {
   const { addShift, loading } = useAddShift();
   const { dogs } = useDogs();
 
-  const [entryType, setEntryType] = useState<'shift' | 'walk'>('shift');
+  const [entryType, setEntryType] = useState<'work' | 'walk'>('work');
 
   const [shiftDate, setShiftDate] = useState<Date | null>(null);
   const [startTime, setStartTime] = useState<Date | null>(null);
@@ -42,7 +43,7 @@ const ReservationAdd = () => {
       end_time: formatTime(endTime),
       shift_date: formatDate(shiftDate),
       crew: crew ? Number(crew) : null,
-      label: entryType === 'shift' ? label : null,
+      label: entryType === 'work' ? label : null,
       dog_id: entryType === 'walk' ? (selectedDogId ? Number(selectedDogId) : null) : null,
     };
 
@@ -51,11 +52,11 @@ const ReservationAdd = () => {
     if (success) {
       router.push('/pages/Reservations');
     } else {
-      Alert.alert('Fout', 'Shift kon niet worden toegevoegd.');
+      Alert.alert('Fout', 'work kon niet worden toegevoegd.');
     }
   };
 
-  const handleTypeChange = (type: 'shift' | 'walk') => {
+  const handleTypeChange = (type: 'work' | 'walk') => {
     setEntryType(type);
     setLabel('');
     setSelectedDogId(null);
@@ -73,21 +74,21 @@ const ReservationAdd = () => {
 
   return (
     <PageLayout>
-      <Text style={globalStyles.pageTitle}>Nieuwe {entryType === 'shift' ? 'Shift' : 'Walk'}</Text>
+      <Text style={globalStyles.pageTitle}>Nieuwe {entryType === 'work' ? 'Taak' : 'Wandeling'}</Text>
 
-      <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 20 }}>
-        {['shift', 'walk'].map((type) => (
+      <View style={createShiftStyles.buttonContainer}>
+        {['work', 'walk'].map((type) => (
           <TouchableOpacity
             key={type}
-            onPress={() => handleTypeChange(type as 'shift' | 'walk')}
-            style={{
-              padding: 10,
-              backgroundColor: entryType === type ? '#007AFF' : '#ccc',
-              marginHorizontal: 10,
-              borderRadius: 8,
-            }}
+            onPress={() => handleTypeChange(type as 'work' | 'walk')}
+            style={[
+              createShiftStyles.topShiftButtons,
+              {
+                backgroundColor: entryType === type ? '#F09D19' : '#F9E6C8',
+              },
+            ]}
           >
-            <Text style={{ color: '#fff' }}>{type === 'shift' ? 'Shift' : 'Walk'}</Text>
+            <Text style={{ color: '#F8F3EC' }}>{type === 'work' ? 'Work' : 'Walk'}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -164,8 +165,8 @@ const ReservationAdd = () => {
             />
           </TouchableOpacity>
 
-          {/* Alleen voor shift */}
-          {entryType === 'shift' && (
+          {/* Alleen voor work */}
+          {entryType === 'work' && (
             <TextInput
               style={editProfileStyles.input}
               placeholder="Label"
@@ -184,7 +185,7 @@ const ReservationAdd = () => {
                   onPress={() => setSelectedDogId(dog.id)}
                   style={{
                     padding: 10,
-                    backgroundColor: selectedDogId === dog.id ? '#007AFF' : '#eee',
+                    backgroundColor: selectedDogId === dog.id ? '#F09D19' : '#F9E6C8',
                     borderRadius: 6,
                     marginBottom: 6,
                   }}
@@ -199,6 +200,7 @@ const ReservationAdd = () => {
         </View>
         <View style={globalStyles.m_space} />
       </View>
+        <View style={globalStyles.m_space} />
     </PageLayout>
   );
 };

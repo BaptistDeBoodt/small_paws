@@ -16,9 +16,6 @@ export const shiftCardStyles = StyleSheet.create({
       borderRadius: 11,
       padding: 15,
       boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
       marginBottom: 20,
     },
 
@@ -89,4 +86,10 @@ export const shiftCardStyles = StyleSheet.create({
       fontWeight: 'regular',
       textAlign: 'right',
     },
+
+    switch: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between"
+    }
 })

@@ -28,10 +28,14 @@ const WalkShiftCard = ({ start_time, end_time, shift_date, dogName, id }: ShiftT
   return (
     <TouchableOpacity onPress={() => router.push({ pathname: '/pages/ShiftDetail/[id]', params: { id } })} 
      style={[shiftCardStyles.card, walkShiftStyles.bg200]}>
-      <View>
-        <Text style={[shiftCardStyles.title, walkShiftStyles.cl900]}>
-          {dayName.charAt(0).toUpperCase() + dayName.slice(1)}
-        </Text>
+        <View style={shiftCardStyles.switch}>
+          <Text style={[shiftCardStyles.title, walkShiftStyles.cl900]}>
+            {dayName.charAt(0).toUpperCase() + dayName.slice(1)}
+          </Text>
+          <Text style={[shiftCardStyles.time, walkShiftStyles.cl900]}>
+            {`${formatTime(start_time)} - ${formatTime(end_time)}`}
+          </Text>
+        </View>
         <Text style={[shiftCardStyles.date, walkShiftStyles.cl900]}>{formattedDate}</Text>
 
         <View style={[shiftCardStyles.pill, walkShiftStyles.bg600]}>
@@ -49,13 +53,6 @@ const WalkShiftCard = ({ start_time, end_time, shift_date, dogName, id }: ShiftT
           />
           <Text style={[shiftCardStyles.tagText, walkShiftStyles.cl900]}>{dogName}</Text>
         </View>
-      </View>
-
-      <View>
-        <Text style={[shiftCardStyles.time, walkShiftStyles.cl900]}>
-          {`${formatTime(start_time)} - ${formatTime(end_time)}`}
-        </Text>
-      </View>
     </TouchableOpacity>
   );
 };

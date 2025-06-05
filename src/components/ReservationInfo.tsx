@@ -1,11 +1,12 @@
-import { reservationStyles } from '@styles/styles';
+import { reservationStyles, badgeStyles } from '@styles/styles';
 import { View, Text, Alert } from 'react-native';
 import Button from '@components/Button';
 import { supabase } from '@utils/supabase';
 import React, { useState } from 'react';
 import { ReservationInfoProps } from '@typefiles/ReservationInfoProps';
+import { Image } from 'expo-image';
 
-const ReservationInfo = ({ crew, request, shiftId }: ReservationInfoProps) => {
+const ReservationInfo = ({ crew, request, shiftId, dogLevel, dogName }: ReservationInfoProps) => {
   const [currentRequest, setCurrentRequest] = useState<number>(request);
   const [loading, setLoading] = useState(false);
 
@@ -64,11 +65,28 @@ const ReservationInfo = ({ crew, request, shiftId }: ReservationInfoProps) => {
     }
   };
 
+  const badges = [
+    null,
+    require('@assets/images/icons/badge-green.svg'),
+    require('@assets/images/icons/badge-orange.svg'),
+    require('@assets/images/icons/badge-red.svg'),
+  ];
+
+  const badgeSource = dogLevel && dogLevel >= 1 && dogLevel <= 3 ? badges[dogLevel] : null;
+
+
   return (
     <View style={reservationStyles.card}>
       <Text style={reservationStyles.count}>
         {currentRequest}/{crew}
       </Text>
+
+      {dogLevel && (
+        <Image
+          style={[badgeStyles.badge, badgeStyles.new_badge]}
+          source={badgeSource}
+        />
+      )}
 
       {!isFull && (
         <Button
