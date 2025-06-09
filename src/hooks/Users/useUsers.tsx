@@ -16,7 +16,7 @@ const useUsers = (enabled = true) => {
       try {
         const { data, error } = await supabase
           .from('Users')
-          .select('id, first_name, last_name, phone, birthdate, level, role');
+          .select('id, first_name, last_name, phone, birthdate, level, role, image');
 
         if (error) throw error;
         setVolunteers(data || []);

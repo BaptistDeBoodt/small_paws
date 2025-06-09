@@ -40,14 +40,21 @@ const ProfileCard = ({ first_name, last_name, phone, birthdate, email, image }: 
         </View>
       </View>
       <View>
+
+        { birthdate && (
         <View style={profileStyles.switch}>
           <Text style={profileStyles.text}>Geboortedatum:</Text>
           <Text style={profileStyles.text}>{formatDate(birthdate)}</Text>
         </View>
+        )}
+
+        { phone && (
         <View style={profileStyles.switch}>
           <Text style={profileStyles.text}>Telefoonnummer:</Text>
           <Text style={profileStyles.text}>+32{phone}</Text>
         </View>
+        )}
+        
       </View>
     </View>
   );

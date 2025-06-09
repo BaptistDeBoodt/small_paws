@@ -15,20 +15,26 @@ import { Text, View } from 'react-native';
 export default function Reservations() {
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
   const { shifts: reservations, loading } = useShifts();
-  const router = useRouter();
   const { profile } = useUser();
+  const router = useRouter();
 
-  if (loading || !profile) return null;
+  // ✅ Correcte loading return
+  if (loading || !profile) {
+    return (
+      <PageLayout>
+        <View style={globalStyles.loadingContainer}>
+          <Loading />
+        </View>
+      </PageLayout>
+    );
+  }
 
   const isAdmin = profile.role === 1;
 
-  const filteredWalkShifts = reservations.filter(
-    (res) => res.type === 'walk' && selectedDates.includes(res.shift_date)
-  );
-
-  const filteredWorkShifts = reservations.filter(
-    (res) => res.type === 'work' && selectedDates.includes(res.shift_date)
-  );
+  const shiftsByDate: { [date: string]: typeof reservations } = {};
+  selectedDates.forEach((date) => {
+    shiftsByDate[date] = reservations.filter((res) => res.shift_date === date);
+  });
 
   return (
     <View style={{ flex: 1 }}>
@@ -39,46 +45,65 @@ export default function Reservations() {
           <Calendar selectedDates={selectedDates} onDateChange={setSelectedDates} />
         </View>
 
-        <View style={globalStyles.section}>
-          <Text style={globalStyles.sm_title}>Wandelingen</Text>
-          {filteredWalkShifts.length === 0 ? (
-            <Message message="Geen Wandelingen" />
-          ) : (
-            filteredWalkShifts.map((reservation, index) => (
-              <WalkShiftCard
-                key={index}
-                id={reservation.id}
-                type={reservation.type}
-                start_time={reservation.start_time}
-                end_time={reservation.end_time}
-                shift_date={reservation.shift_date}
-                crew={reservation.crew}
-                label={reservation.label}
-                dogName={reservation.Dogs?.name ?? 'Onbekende hond'}
-              />
-            ))
-          )}
-        </View>
+        {selectedDates.length === 0 ? (
+          <Message message="Selecteer een datum om reserveringen te bekijken." />
+        ) : (
+          selectedDates.map((date) => {
+            const dayShifts = shiftsByDate[date] || [];
+            const walkShifts = dayShifts.filter((res) => res.type === 'walk');
+            const workShifts = dayShifts.filter((res) => res.type === 'work');
 
-        <View style={globalStyles.section}>
-          <Text style={globalStyles.sm_title}>Taken</Text>
-          {filteredWorkShifts.length === 0 ? (
-            <Message message="Geen Taken" />
-          ) : (
-            filteredWorkShifts.map((reservation, index) => (
-              <WorkShiftCard
-                key={index}
-                id={reservation.id}
-                type={reservation.type}
-                start_time={reservation.start_time}
-                end_time={reservation.end_time}
-                shift_date={reservation.shift_date}
-                crew={reservation.crew}
-                label={reservation.label}
-              />
-            ))
-          )}
-        </View>
+            const hasNoShifts = walkShifts.length === 0 && workShifts.length === 0;
+
+            return (
+              <View key={date} style={globalStyles.section}>
+                <Text style={globalStyles.sm_title}>
+                  {new Date(date).toLocaleDateString('nl-BE', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                  })}
+                </Text>
+
+                {hasNoShifts ? (
+                  <Message message="Geen shifts op deze dag." />
+                ) : (
+                  <>
+                    {/* Wandelingen */}
+                    {walkShifts.map((reservation, index) => (
+                      <WalkShiftCard
+                        key={`walk-${reservation.id}-${index}`}
+                        id={reservation.id}
+                        type={reservation.type}
+                        start_time={reservation.start_time}
+                        end_time={reservation.end_time}
+                        shift_date={reservation.shift_date}
+                        crew={reservation.crew}
+                        label={reservation.label}
+                        dogName={reservation.Dogs?.name ?? 'Onbekende hond'}
+                        dogHealth={reservation.Dogs?.healthy}
+                      />
+                    ))}
+
+                    {/* Taken */}
+                    {workShifts.map((reservation, index) => (
+                      <WorkShiftCard
+                        key={`work-${reservation.id}-${index}`}
+                        id={reservation.id}
+                        type={reservation.type}
+                        start_time={reservation.start_time}
+                        end_time={reservation.end_time}
+                        shift_date={reservation.shift_date}
+                        crew={reservation.crew}
+                        label={reservation.label}
+                      />
+                    ))}
+                  </>
+                )}
+              </View>
+            );
+          })
+        )}
 
         <View style={globalStyles.m_space} />
       </PageLayout>

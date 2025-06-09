@@ -22,7 +22,8 @@ const useShifts = () => {
           crew,
           Dogs (
             id,
-            name
+            name,
+            healthy
           )
         `);
 

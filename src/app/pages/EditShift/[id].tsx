@@ -56,13 +56,23 @@ const ShiftEdit = () => {
   }, [shift]);
 
 const handleSave = async () => {
+  if (startTime && endTime && endTime <= startTime) {
+    Alert.alert('Fout', 'Eindtijd moet na starttijd komen.');
+    return;
+  }
+
+  if (shift.type === 'walk' && !selectedDogId) {
+    Alert.alert('Fout', 'Selecteer een hond voor deze wandeling.');
+    return;
+  }
+
   const updatedData = {
-    crew: crew ? Number(crew) : null,
+    crew: crew ? Number(crew) : 1,
     start_time: formatTime(startTime),
     end_time: formatTime(endTime),
     shift_date: formatDate(shiftDate),
     type: shift.type,
-    label: shift.type === 'shift' ? label : null,
+    label: shift.type === 'work' ? label : null,
     dog_id: shift.type === 'walk' && selectedDogId ? selectedDogId : null,
   };
 
@@ -154,7 +164,10 @@ const handleSave = async () => {
             style={editProfileStyles.input}
             placeholder="Aantal crewleden"
             value={crew}
-            onChangeText={setCrew}
+            onChangeText={text => {
+              // Only allow numbers 1-9, no 0 or empty string
+              if (/^[1-9]?$/.test(text)) setCrew(text);
+            }}
             keyboardType="numeric"
           />
 
@@ -178,12 +191,12 @@ const handleSave = async () => {
                   onPress={() => setSelectedDogId(dog.id)}
                   style={{
                     padding: 10,
-                    backgroundColor: selectedDogId === dog.id ? '#007AFF' : '#eee',
+                    backgroundColor: selectedDogId === dog.id ? '#F09D19' : '#F9E6C8',
                     borderRadius: 6,
                     marginBottom: 6,
                   }}
                 >
-                  <Text style={{ color: selectedDogId === dog.id ? '#fff' : '#000' }}>
+                  <Text style={{ color: selectedDogId === dog.id ? '#F8F3EC' : '#392606' }}>
                     {dog.name}
                   </Text>
                 </TouchableOpacity>

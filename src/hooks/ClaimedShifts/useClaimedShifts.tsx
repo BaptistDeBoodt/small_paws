@@ -21,7 +21,7 @@ const useClaimedShifts = () => {
 
       const { data, error } = await supabase
         .from('Claimed_shifts')
-        .select('shift_id, Shifts(*, Dogs(name))')
+        .select('shift_id, Shifts(*, Dogs(name, healthy))')
         .eq('user_id', user.id);
 
       if (error) {

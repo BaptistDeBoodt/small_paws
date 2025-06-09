@@ -62,6 +62,9 @@ export const globalStyles = StyleSheet.create({
     position: 'absolute',
     right: 30,
     bottom: 130,
-    zIndex: 100
+    zIndex: 100,
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 10
   },
 })

@@ -1,15 +1,18 @@
 import { heroStyles } from '@styles/styles';
-import { ImageBackground, Text } from 'react-native';
+import { View, Text } from 'react-native';
 
-export default function Hero() {
+type MessageProps = {
+  message: string;
+}
+
+const Hero = ({message}: MessageProps) => {
   return (
     <>
-    <ImageBackground
-        style={heroStyles.container}
-        source={require('@assets/images/hero.jpg')}
-    >
-        <Text style={heroStyles.text}>Welkom Harper</Text>
-    </ImageBackground>
+    <View style={heroStyles.container}>
+      <Text style={heroStyles.text}>{message}</Text>
+    </View>
     </>
   )
 }
+
+export default Hero

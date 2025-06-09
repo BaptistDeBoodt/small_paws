@@ -13,7 +13,18 @@ const useDog = (id: string) => {
 
       const { data, error } = await supabase
         .from('Dogs')
-        .select('name, sex, birthdate, breed, level, reference, description, image')
+        .select(`
+          name,
+          sex,
+          birthdate,
+          breed,
+          level,
+          reference,
+          description, 
+          image,
+          healthy,
+          adopted
+        `)
         .eq('id', id)
         .single();
 

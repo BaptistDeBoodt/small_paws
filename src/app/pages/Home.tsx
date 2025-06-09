@@ -1,24 +1,36 @@
 import Loading from '@components/Loading';
-import Message from '@components/Message';
-import NavCard from '@components/navCard/NavCard';
+import { noShiftMessages, hasShiftMessages } from '@components/HomeMessage';
 import WalkShiftCard from '@components/WalkShiftCard';
 import WorkShiftCard from '@components/WorkShiftCard';
+import Hero from '@components/Hero';
 import useClaimedShifts from '@hooks/ClaimedShifts/useClaimedShifts';
 import PageLayout from '@layout/PageLayout';
 import { globalStyles } from '@styles/styles';
-import { Text, View } from 'react-native';
-
+import { useMemo } from 'react';
+import { View } from 'react-native';
+import HomeLayout from '@layout/HomeLayout';
+import useUser from '@hooks/Users/useUser';
+import { useRouter } from 'expo-router';
+import AdminSettingButton from '@components/admin/AdminSettingsButton'
 
 export default function Home() {
   const { claimedShifts, loading } = useClaimedShifts();
-
   const today = new Date().toISOString().split('T')[0];
+  const { profile } = useUser();
+  const router = useRouter();
 
   const todayShifts = claimedShifts.filter(
     (item) => item.Shifts.shift_date === today
   );
 
-  if (loading) {
+  // Kies juiste lijst op basis van of er shifts zijn
+  const messageOfTheDay = useMemo(() => {
+    const source = todayShifts.length > 0 ? hasShiftMessages : noShiftMessages;
+    const index = Math.floor(Math.random() * source.length);
+    return source[index];
+  }, [todayShifts.length]);
+
+  if (loading || !profile) {
     return (
       <PageLayout>
         <View style={globalStyles.loadingContainer}>
@@ -28,16 +40,13 @@ export default function Home() {
     );
   }
 
-  return (
-    <PageLayout>
-      {/* <View style={globalStyles.section}>
-        <NavCard />
-      </View> */}
+  const isAdmin = profile.role === 1;
 
+  return (
+    <View style={{ flex: 1 }}>
+    <HomeLayout>
+      <Hero message={messageOfTheDay} />
       <View style={globalStyles.section}>
-        {todayShifts.length === 0 && (
-          <Message message="Je hebt vandaag geen shifts opgeëist." />
-        )}
         {todayShifts.map((item, index) => {
           const shift = item.Shifts;
           if (shift.type === 'walk') {
@@ -51,6 +60,7 @@ export default function Home() {
                 shift_date={shift.shift_date}
                 crew={shift.crew}
                 dogName={shift.Dogs?.name ?? 'Onbekende hond'}
+                dogHealth={shift.Dogs?.healthy}
               />
             );
           } else if (shift.type === 'work') {
@@ -71,8 +81,14 @@ export default function Home() {
           }
         })}
       </View>
-
       <View style={globalStyles.m_space} />
-    </PageLayout>
+    </HomeLayout>
+
+    {isAdmin && (
+        <View style={globalStyles.buttonContainer} pointerEvents="box-none">
+          <AdminSettingButton onPress={() => router.push('/pages/Settings')} />
+        </View>
+      )}
+    </View>
   );
 }

@@ -22,6 +22,12 @@ export default function Header() {
           style={headerStyles.logo}
         />
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => router.push('/pages/Home')}>
+        <Image
+          source={require('@assets/images/icons/logo-header.svg')}
+          style={headerStyles.small_logo}
+        />
+      </TouchableOpacity>
     </View>
   );
 }

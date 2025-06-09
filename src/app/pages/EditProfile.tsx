@@ -20,39 +20,41 @@ const EditProfile = () => {
 
   const [first_name, setFirstName] = useState('');
   const [last_name, setLastName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState<string>('');
   const [birthdate, setBirthdate] = useState<Date | null>(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   useEffect(() => {
     if (profile) {
-      setFirstName(profile.first_name);
-      setLastName(profile.last_name);
-      setPhone(profile.phone);
+      setFirstName(profile.first_name || '');
+      setLastName(profile.last_name || '');
+      setPhone(profile.phone || '');  // <-- hier: fallback naar lege string
       setBirthdate(profile.birthdate ? new Date(profile.birthdate) : null);
     }
   }, [profile]);
 
-  const handleSave = async () => {
-    try {
-      await updateProfile({ 
-        first_name,
-        last_name,
-        phone,
-        birthdate: birthdate ? birthdate.toISOString().split('T')[0] : '',
-        image: image || profile?.image
-      });
-      router.push('/pages/Profile');
-    } catch (err) {
-      console.error('Fout bij opslaan:', err);
-    }
-  };
+const handleSave = async () => {
+  try {
+    const updatedData: any = {
+      first_name,
+      last_name,
+      phone,
+      birthdate: birthdate ? birthdate.toISOString().split('T')[0] : '',
+      image: image || profile?.image,
+    };
+
+    await updateProfile(updatedData);
+    router.push('/pages/Profile');
+  } catch (err) {
+    console.error('Fout bij opslaan:', err);
+  }
+};
 
   if (loading)
   return (
     <PageLayout>
       <View style={globalStyles.section}>
-      <Loading />
+        <Loading />
       </View>
     </PageLayout>
   );

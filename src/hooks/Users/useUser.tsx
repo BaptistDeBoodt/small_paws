@@ -19,7 +19,7 @@ const useUser = () => {
 
       const { data, error } = await supabase
         .from('Users')
-        .select('first_name, last_name, phone, birthdate, level, role, image')
+        .select('id, first_name, last_name, phone, birthdate, level, role, image')
         .eq('id', session.user.id)
         .single();
 
@@ -30,6 +30,7 @@ const useUser = () => {
       }
 
       setProfile({ 
+        id: data.id ?? '',
         first_name: data.first_name ?? '', 
         last_name: data.last_name ?? '', 
         email: session.user.email ?? '', 

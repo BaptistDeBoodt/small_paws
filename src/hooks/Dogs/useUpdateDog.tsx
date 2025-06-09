@@ -1,5 +1,5 @@
 import { supabase } from '@utils/supabase';
-import { DogProfileProps } from '@typefiles/DogProfileProps'; // Zorg dat je een Dog type hebt gedefinieerd
+import { DogProfileProps } from '@typefiles/DogProfileProps';
 
 const useUpdateDog = () => {
   const updateDog = async (id: string, dog: Partial<DogProfileProps>) => {
@@ -8,6 +8,7 @@ const useUpdateDog = () => {
     const { error } = await supabase
       .from('Dogs')
       .update({
+        id: dog.id,
         name: dog.name,
         breed: dog.breed,
         birthdate: dog.birthdate,
@@ -16,6 +17,8 @@ const useUpdateDog = () => {
         reference: dog.reference,
         image: dog.image,
         description: dog.description,
+        healthy: dog.healthy,
+        adopted: dog.adopted
       })
       .eq('id', id);
 

@@ -76,5 +76,43 @@ export const editProfileStyles = StyleSheet.create({
         width: 10,
         borderRadius: 5,
         backgroundColor: colors.orange_500,
+    },
+
+    checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+    },
+
+    checkbox: {
+    width: 24,
+    height: 24,
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: colors.orange_500,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
+    },
+
+    checked: {
+    width: 12,
+    height: 12,
+    backgroundColor: colors.orange_500,
+    borderRadius: 2,
+    },
+
+    checkboxLabel: {
+    fontSize: 16,
+    },
+
+    title: {
+        fontWeight: 'bold',
+        fontSize: 24,
+        marginBottom: 10
+    },
+
+    disclaimer: {
+        marginBottom: 10
     }
 })

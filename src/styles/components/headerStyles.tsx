@@ -6,6 +6,10 @@ export const headerStyles = StyleSheet.create({
         width: '100%',
         backgroundColor: colors.orange_100,
         paddingTop: 30,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         paddingBottom: 5,
         paddingLeft: 25,
         paddingRight: 25,
@@ -21,7 +25,12 @@ export const headerStyles = StyleSheet.create({
     },
     
     logo: {
-        width: 50,
-        height: 50,
+        width: 40,
+        height: 40,
+    },
+
+    small_logo: {
+        width: 30,
+        height: 30,
     }
 })

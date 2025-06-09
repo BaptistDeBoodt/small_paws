@@ -10,7 +10,11 @@ type ShiftTypeProps = {
   Dogs?: {
     id: string;
     name: string;
+    healthy: boolean;
   };
+  dogName?: string;
+  dogId: string | number | null;
+  dogHealth: boolean;
 };
 
 export type { ShiftTypeProps };

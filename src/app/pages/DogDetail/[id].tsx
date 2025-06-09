@@ -51,6 +51,7 @@ const DogDetail = () => {
           sex={dog.sex}
           level={dog.level}
           reference={dog.reference}
+          healthy={dog.healthy}
         />
       )}
       </View>
@@ -59,6 +60,9 @@ const DogDetail = () => {
         <DogProfileFilter 
           description={dog.description}
           shifts={filteredShifts}
+          role={profile.role}
+          healthy={dog.healthy}
+          id={id as string}
         />
       )}
       </View>

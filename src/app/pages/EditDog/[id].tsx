@@ -27,6 +27,7 @@ const DogEdit = () => {
   const [reference, setReference] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
+  const [adopted, setAdopted] = useState(false);
 
   useEffect(() => {
     if (dog) {
@@ -38,6 +39,7 @@ const DogEdit = () => {
       setReference(dog.reference?.toString() ?? '');
       setDescription(dog.description ?? '');
       setImage(dog.image ?? '');
+      setAdopted(dog.adopted ?? false);
     }
   }, [dog]);
 
@@ -57,8 +59,12 @@ const DogEdit = () => {
         reference: reference ? Number(reference) : undefined,
         description,
         image: pickedImage || image,
+        adopted,
       });
-      router.push({ pathname: '/pages/DogDetail/[id]', params: { id } });
+      router.push({
+        pathname: '/pages/DogDetail/[id]',
+        params: { id: typeof id === 'string' ? id : id?.[0] ?? '' }
+      });
     } catch (err) {
       console.error('Fout bij opslaan:', err);
       Alert.alert('Fout', 'Hond kon niet worden opgeslagen.');
@@ -175,6 +181,30 @@ const DogEdit = () => {
             onChangeText={setDescription}
             multiline
           />
+
+          <TouchableOpacity
+            style={editProfileStyles.checkboxContainer}
+            onPress={() => {
+              if (!adopted) {
+                Alert.alert(
+                  'Adoptie bevestigen',
+                  'Als je doorgaat, zal deze hond niet meer zichtbaar zijn in het overzicht van alle honden.',
+                  [
+                    { text: 'Annuleren', style: 'cancel' },
+                    { text: 'Doorgaan', onPress: () => setAdopted(true) },
+                  ]
+                );
+              } else {
+                setAdopted(false);
+              }
+            }}
+          >
+            <View style={editProfileStyles.checkbox}>
+              {adopted && <View style={editProfileStyles.checked} />}
+            </View>
+            <Text style={editProfileStyles.checkboxLabel}>Vink mij aan bij adoptie</Text>
+          </TouchableOpacity>
+          
           <Button title="Opslaan" onPress={handleSave} />
         </View>
         <View style={globalStyles.m_space} />

@@ -10,4 +10,4 @@ type UserProfile = {
   image: string | "";
 };
 
-export  default UserProfile;
+export default UserProfile;

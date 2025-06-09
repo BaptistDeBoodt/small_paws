@@ -38,18 +38,20 @@ const Dogs = () => {
         )}
         {dogs.length > 0 && (
           <View style={globalStyles.section}>
-            {dogs.map((dog, index) => (
-              <DogProfile
-                key={index}
-                id={dog.id}
-                image={dog.image}
-                name={dog.name}
-                breed={dog.breed}
-                birthdate={dog.birthdate}
-                sex={dog.sex}
-                level={dog.level}
-              />
-            ))}
+            {dogs
+              .filter((dog) => !dog.adopted)
+              .map((dog, index) => (
+                <DogProfile
+                  key={index}
+                  id={dog.id}
+                  image={dog.image}
+                  name={dog.name}
+                  breed={dog.breed}
+                  birthdate={dog.birthdate}
+                  sex={dog.sex}
+                  level={dog.level}
+                />
+              ))}
           </View>
         )}
         <View style={globalStyles.m_space} />

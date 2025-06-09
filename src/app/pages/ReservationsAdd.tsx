@@ -36,15 +36,35 @@ const ReservationAdd = () => {
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
 
-  const handleSave = async () => {
+const handleSave = async () => {
+    if (!shiftDate || !startTime || !endTime) {
+      Alert.alert('Fout', 'Datum, starttijd en eindtijd zijn verplicht.');
+      return;
+    }
+
+    if (endTime <= startTime) {
+      Alert.alert('Fout', 'Eindtijd moet na starttijd komen.');
+      return;
+    }
+
+    if (entryType === 'walk' && !selectedDogId) {
+      Alert.alert('Fout', 'Selecteer een hond voor deze wandeling.');
+      return;
+    }
+
+    if (entryType === 'work' && label.trim() === '') {
+      Alert.alert('Fout', 'Voer een label in voor deze werkshift.');
+      return;
+    }
+
     const shiftData = {
       type: entryType,
       start_time: formatTime(startTime),
       end_time: formatTime(endTime),
       shift_date: formatDate(shiftDate),
-      crew: crew ? Number(crew) : null,
+      crew: crew ? Number(crew) : 1,
       label: entryType === 'work' ? label : null,
-      dog_id: entryType === 'walk' ? (selectedDogId ? Number(selectedDogId) : null) : null,
+      dog_id: entryType === 'walk' ? Number(selectedDogId) : null,
     };
 
     const success = await addShift(shiftData);
@@ -52,9 +72,10 @@ const ReservationAdd = () => {
     if (success) {
       router.push('/pages/Reservations');
     } else {
-      Alert.alert('Fout', 'work kon niet worden toegevoegd.');
+      Alert.alert('Fout', 'Shift kon niet worden toegevoegd.');
     }
   };
+
 
   const handleTypeChange = (type: 'work' | 'walk') => {
     setEntryType(type);
@@ -157,13 +178,18 @@ const ReservationAdd = () => {
 
           {/* Crew */}
           <TouchableOpacity style={editProfileStyles.input}>
-            <TextInput
-              placeholder="Aantal crewleden"
-              value={crew}
-              onChangeText={setCrew}
-              keyboardType="numeric"
-            />
-          </TouchableOpacity>
+          <TextInput
+            placeholder="Aantal crewleden"
+            value={crew}
+            onChangeText={(text) => {
+              // Alleen 1-9 toestaan
+              if (/^[1-9]?$/.test(text)) {
+                setCrew(text);
+              }
+            }}
+            keyboardType="numeric"
+          />
+        </TouchableOpacity>
 
           {/* Alleen voor work */}
           {entryType === 'work' && (
@@ -190,7 +216,9 @@ const ReservationAdd = () => {
                     marginBottom: 6,
                   }}
                 >
-                  <Text>{dog.name}</Text>
+                  <Text style={{ color: selectedDogId === dog.id ? '#F8F3EC' : '#392606' }}>
+                    {dog.name}
+                  </Text>
                 </TouchableOpacity>
               ))}
             </>

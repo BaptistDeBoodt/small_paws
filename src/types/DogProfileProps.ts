@@ -1,5 +1,5 @@
 type DogProfileProps = {
-  id?: string;
+  id: string;
   name: string;
   breed?: string;
   birthdate?: string;
@@ -8,6 +8,8 @@ type DogProfileProps = {
   reference?: number;
   image?: string;
   description?: string;
+  healthy: boolean,
+  adopted: boolean
 };
 
 export type { DogProfileProps };

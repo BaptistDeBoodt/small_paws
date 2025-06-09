@@ -1,7 +1,7 @@
 type ClaimedShifts = {
   shift_id?: string;
   Shifts: {
-    id: string;
+    id?: string;
     type: string;
     start_time: string;
     end_time: string;

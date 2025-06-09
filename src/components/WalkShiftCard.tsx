@@ -5,7 +5,7 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-const WalkShiftCard = ({ start_time, end_time, shift_date, dogName, id }: ShiftTypeProps & { dogName?: string }) => {
+const WalkShiftCard = ({ start_time, end_time, shift_date, dogName, id, dogHealth }: ShiftTypeProps & { dogName?: string }) => {
   const router = useRouter();
 
   const date = new Date(shift_date);
@@ -26,33 +26,80 @@ const WalkShiftCard = ({ start_time, end_time, shift_date, dogName, id }: ShiftT
   };
 
   return (
-    <TouchableOpacity onPress={() => router.push({ pathname: '/pages/ShiftDetail/[id]', params: { id } })} 
-     style={[shiftCardStyles.card, walkShiftStyles.bg200]}>
-        <View style={shiftCardStyles.switch}>
-          <Text style={[shiftCardStyles.title, walkShiftStyles.cl900]}>
-            {dayName.charAt(0).toUpperCase() + dayName.slice(1)}
-          </Text>
-          <Text style={[shiftCardStyles.time, walkShiftStyles.cl900]}>
-            {`${formatTime(start_time)} - ${formatTime(end_time)}`}
-          </Text>
-        </View>
-        <Text style={[shiftCardStyles.date, walkShiftStyles.cl900]}>{formattedDate}</Text>
+    <TouchableOpacity
+      onPress={() => router.push({ pathname: '/pages/ShiftDetail/[id]', params: { id } })}
+      style={[
+        shiftCardStyles.card,
+        dogHealth ? walkShiftStyles.bg200 : walkShiftStyles.bgdisabled
+      ]}
+      disabled={!dogHealth}
+    >
+      <View style={shiftCardStyles.switch}>
+        <Text
+          style={[
+            shiftCardStyles.title,
+            dogHealth ? walkShiftStyles.cl900 : walkShiftStyles.cldisable
+          ]}
+        >
+          {dayName.charAt(0).toUpperCase() + dayName.slice(1)}
+        </Text>
+        <Text
+          style={[
+            shiftCardStyles.time,
+            dogHealth ? walkShiftStyles.cl900 : walkShiftStyles.cldisable
+          ]}
+        >
+          {`${formatTime(start_time)} - ${formatTime(end_time)}`}
+        </Text>
+      </View>
 
-        <View style={[shiftCardStyles.pill, walkShiftStyles.bg600]}>
-          <Image
-            source={require('@assets/images/icons/walk-pill.svg')}
-            style={shiftCardStyles.pillImage}
-          />
-          <Text style={[shiftCardStyles.pillTitle, walkShiftStyles.cl100]}>Wandel</Text>
-        </View>
+      <Text
+        style={[
+          shiftCardStyles.date,
+          dogHealth ? walkShiftStyles.cl900 : walkShiftStyles.cldisable
+        ]}
+      >
+        {formattedDate}
+      </Text>
 
-        <View style={shiftCardStyles.tag}>
-          <Image
-            source={require('@assets/images/icons/dog-green.svg')}
-            style={shiftCardStyles.tagImage}
-          />
-          <Text style={[shiftCardStyles.tagText, walkShiftStyles.cl900]}>{dogName}</Text>
-        </View>
+      <View
+        style={[
+          shiftCardStyles.pill,
+          dogHealth ? walkShiftStyles.bg600 : walkShiftStyles.bgdisabled_500
+        ]}
+      >
+        <Image
+          source={require('@assets/images/icons/walk-pill.svg')}
+          style={shiftCardStyles.pillImage}
+        />
+        <Text
+          style={[
+            shiftCardStyles.pillTitle,
+            dogHealth ? walkShiftStyles.cl100 : walkShiftStyles.cldisable
+          ]}
+        >
+          Wandel
+        </Text>
+      </View>
+
+      <View style={shiftCardStyles.tag}>
+        <Image
+          source={
+          dogHealth
+            ? require('@assets/images/icons/dog-green.svg')
+            : require('@assets/images/icons/dog-disabled.svg')
+        }
+        style={shiftCardStyles.tagImage}
+        />
+        <Text
+          style={[
+            shiftCardStyles.tagText,
+            dogHealth ? walkShiftStyles.cl900 : walkShiftStyles.cldisable
+          ]}
+        >
+          {dogName}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 };

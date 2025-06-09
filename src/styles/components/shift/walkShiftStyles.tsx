@@ -17,4 +17,16 @@ export const walkShiftStyles = StyleSheet.create({
     bg200: {
       backgroundColor: colors.green_200,
     },
+
+    bgdisabled: {
+      backgroundColor: colors.gray_100
+    },
+
+    bgdisabled_500: {
+      backgroundColor: colors.gray_500
+    },
+
+    cldisable: {
+      color: colors.gray_900
+    }
 })

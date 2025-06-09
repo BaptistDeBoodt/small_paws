@@ -13,7 +13,7 @@ const useVolunteer = (id: string) => {
 
       const { data, error } = await supabase
         .from('Users')
-        .select('first_name, last_name, birthdate, role, level')
+        .select('first_name, last_name, birthdate, role, level, image')
         .eq('id', id)
         .single();
 
