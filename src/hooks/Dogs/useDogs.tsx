@@ -32,8 +32,6 @@ const useDogs = () => {
       setLoading(false);
     };
 
-    console.log('🐶 [useDog] Dogs fetched:');
-
     fetchDogs();
   }, []);
 

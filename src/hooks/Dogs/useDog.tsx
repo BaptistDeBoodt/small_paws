@@ -35,8 +35,6 @@ const useDog = (id: string) => {
         setDog(data);
       }
 
-      console.log('🐶 [useDog] Dog fetched:');
-
       setLoading(false);
     };
 

@@ -15,8 +15,6 @@ const VolunteerProfile = ({ id, first_name, last_name, level, image }: UserProfi
     require('@assets/images/icons/badge-red.svg'),
   ];
 
-  console.log(image)
-
   return (
     <TouchableOpacity onPress={() => router.push({ pathname: '/pages/VolunteerDetail/[id]', params: { id } })} style={volunteerProfileStyles.card}>
       {image ? (

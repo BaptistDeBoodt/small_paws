@@ -18,8 +18,6 @@ export default function useAddDog() {
       return false;
     }
 
-    console.log('🐶 [useAddDog] Dog added successfully:');
-
     setLoading(false);
     return true;
   };

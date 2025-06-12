@@ -37,8 +37,6 @@ const useShifts = () => {
       setLoading(false);
     };
 
-    console.log('🕒 [useShifts] Shifts fetched:');
-
     fetchShifts();
   }, []);
 

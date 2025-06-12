@@ -41,8 +41,6 @@ const useUser = () => {
         image: data.image ?? '',
       });
 
-      console.log('👨 [useUser] User profile fetched successfully:');
-
       setLoading(false);
     };
 

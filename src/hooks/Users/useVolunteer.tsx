@@ -24,8 +24,6 @@ const useVolunteer = (id: string) => {
         setVolunteer(data);
       }
 
-      console.log('🤖 [useVolunteer] Volunteer fetched:');
-
       setLoading(false);
     };
 

@@ -44,46 +44,58 @@ const ShiftEdit = () => {
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
 
+  // Log voor shift en controleren van data
   useEffect(() => {
+
     if (shift) {
       setShiftDate(new Date(shift.shift_date));
       setStartTime(parseTime(shift.start_time));
       setEndTime(parseTime(shift.end_time));
       setCrew(shift.crew?.toString() ?? '');
       setLabel(shift.label ?? '');
-      setSelectedDogId(shift.dog_id ?? null);
+
+      const dogId = shift.Dogs?.id;
+      if (dogId !== null && dogId !== undefined) {
+        setSelectedDogId(String(dogId));
+      } else {
+        setSelectedDogId(null);
+      }
     }
   }, [shift]);
 
-const handleSave = async () => {
-  if (startTime && endTime && endTime <= startTime) {
-    Alert.alert('Fout', 'Eindtijd moet na starttijd komen.');
-    return;
-  }
+  // Extra logs voor dogs en selectie
+  useEffect(() => {
+  }, [dogs, selectedDogId]);
 
-  if (shift.type === 'walk' && !selectedDogId) {
-    Alert.alert('Fout', 'Selecteer een hond voor deze wandeling.');
-    return;
-  }
+  const handleSave = async () => {
+    if (startTime && endTime && endTime <= startTime) {
+      Alert.alert('Fout', 'Eindtijd moet na starttijd komen.');
+      return;
+    }
 
-  const updatedData = {
-    crew: crew ? Number(crew) : 1,
-    start_time: formatTime(startTime),
-    end_time: formatTime(endTime),
-    shift_date: formatDate(shiftDate),
-    type: shift.type,
-    label: shift.type === 'work' ? label : null,
-    dog_id: shift.type === 'walk' && selectedDogId ? selectedDogId : null,
+    if (shift.type === 'walk' && !selectedDogId) {
+      Alert.alert('Fout', 'Selecteer een hond voor deze wandeling.');
+      return;
+    }
+
+    const updatedData = {
+      crew: crew ? Number(crew) : 1,
+      start_time: formatTime(startTime),
+      end_time: formatTime(endTime),
+      shift_date: formatDate(shiftDate),
+      type: shift.type,
+      label: shift.type === 'work' ? label : null,
+      dog_id: shift.type === 'walk' && selectedDogId ? selectedDogId : null,
+    };
+
+    const success = await updateShift(id, updatedData);
+
+    if (success) {
+      router.push('/pages/Reservations');
+    } else {
+      Alert.alert('Fout', 'Shift kon niet worden bijgewerkt.');
+    }
   };
-
-  const success = await updateShift(id, updatedData);
-
-  if (success) {
-    router.push('/pages/Reservations');
-  } else {
-    Alert.alert('Fout', 'Shift kon niet worden bijgewerkt.');
-  }
-};
 
   if (loading || !shift) {
     return (
@@ -165,13 +177,12 @@ const handleSave = async () => {
             placeholder="Aantal crewleden"
             value={crew}
             onChangeText={text => {
-              // Only allow numbers 1-9, no 0 or empty string
               if (/^[1-9]?$/.test(text)) setCrew(text);
             }}
             keyboardType="numeric"
           />
 
-          {/* Label only for work */}
+          {/* Label alleen voor work */}
           {shift.type === 'work' && (
             <TextInput
               style={editProfileStyles.input}
@@ -181,26 +192,31 @@ const handleSave = async () => {
             />
           )}
 
-          {/* Dog selector only for walk */}
+          {/* Hond selector alleen voor walk */}
           {shift.type === 'walk' && (
             <>
               <Text style={{ marginBottom: 10 }}>Kies een hond:</Text>
-              {dogs.map((dog) => (
-                <TouchableOpacity
-                  key={dog.id}
-                  onPress={() => setSelectedDogId(dog.id)}
-                  style={{
-                    padding: 10,
-                    backgroundColor: selectedDogId === dog.id ? '#F09D19' : '#F9E6C8',
-                    borderRadius: 6,
-                    marginBottom: 6,
-                  }}
-                >
-                  <Text style={{ color: selectedDogId === dog.id ? '#F8F3EC' : '#392606' }}>
-                    {dog.name}
-                  </Text>
-                </TouchableOpacity>
-              ))}
+              {dogs.map((dog) => {
+                const isSelected = String(dog.id) === selectedDogId;
+                return (
+                  <TouchableOpacity
+                    key={dog.id}
+                    onPress={() => {
+                      setSelectedDogId(String(dog.id));
+                    }}
+                    style={{
+                      padding: 10,
+                      backgroundColor: isSelected ? '#F09D19' : '#F9E6C8',
+                      borderRadius: 6,
+                      marginBottom: 6,
+                    }}
+                  >
+                    <Text style={{ color: isSelected ? '#F8F3EC' : '#392606' }}>
+                      {dog.name}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
             </>
           )}
 

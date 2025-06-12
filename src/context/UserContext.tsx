@@ -46,7 +46,6 @@ export const UserProvider = ({ children, initialSession }: UserProviderProps) =>
         role: data.role ?? 0
       };
 
-      console.log('✅ [UserContext] User profile fetched successfully:');
       return profileData;
     },
     enabled: !!userId,

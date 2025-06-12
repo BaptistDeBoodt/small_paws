@@ -33,7 +33,6 @@ export const useAutoGenerateWalkShifts = () => {
     }
 
     if (newShifts.length === 0) {
-      console.log('🚫 Geen honden gevonden om shifts aan te maken.');
       return false;
     }
 
@@ -46,7 +45,6 @@ export const useAutoGenerateWalkShifts = () => {
       return false;
     }
 
-    console.log(`✅ ${newShifts.length} shifts succesvol aangemaakt.`);
     return true;
   };
 

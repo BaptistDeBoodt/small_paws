@@ -37,8 +37,6 @@ const useShift = (id: string) => {
         setShift(data);
       }
 
-      console.log('🕒 [useShift] Shift fetched:');
-
       setLoading(false);
     };
 

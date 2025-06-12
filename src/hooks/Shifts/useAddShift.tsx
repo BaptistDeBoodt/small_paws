@@ -18,8 +18,6 @@ export default function useAddShift() {
       return false;
     }
 
-    console.log('🕒 [useAddShift] Shift added successfully');
-
     setLoading(false);
     return true;
   };

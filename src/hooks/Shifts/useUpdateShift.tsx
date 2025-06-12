@@ -7,7 +7,6 @@ const useUpdateShift = () => {
 
   const updateShift = async (shiftId: number, updatedData: any) => {
     setLoading(true);
-    console.log('📝 [ShiftEdit] Updated Data:');
 
     const { error, data } = await supabase
       .from('Shifts')
@@ -23,7 +22,6 @@ const useUpdateShift = () => {
       return false;
     }
 
-    console.log('✅ Supabase Update Success:');
     return true;
   };
 

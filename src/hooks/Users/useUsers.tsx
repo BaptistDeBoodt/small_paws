@@ -12,7 +12,6 @@ const useUsers = (enabled = true) => {
 
     const fetchVolunteers = async () => {
       setLoading(true);
-      console.log('de admin is ingelogd')
       try {
         const { data, error } = await supabase
           .from('Users')
@@ -20,7 +19,6 @@ const useUsers = (enabled = true) => {
 
         if (error) throw error;
         setVolunteers(data || []);
-        console.log('🤡 [useUsers] Users profile fetched successfully:');
       } catch (err: any) {
         console.error('❌ [useUsers] Error:', err.message);
         setError(err.message);

@@ -15,7 +15,6 @@ const useDeleteClaimedShifts = () => {
     }
 
     if (!shifts || shifts.length === 0) {
-      console.log('[DELETE DEBUG] Geen shifts gevonden voor dog_id:', dogId);
       return;
     }
 
