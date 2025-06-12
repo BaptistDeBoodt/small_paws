@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, AppState, AppStateStatus, View, TextInput, Text } from 'react-native';
+import { Alert, AppState, AppStateStatus, View, TextInput, Text, Touchable, TouchableOpacity } from 'react-native';
 import { supabase } from '@utils/supabase';
 import Button from '@components/Button';
 import { globalStyles, authStyles } from '@styles/styles';
 import AuthLayout from '@layout/AuthLayout';
 import { useRouter } from 'expo-router';
+import { Image } from 'expo-image';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -50,9 +51,14 @@ const Auth = () => {
 
   return (
     <AuthLayout>
-      <View style={globalStyles.section}>
+      <View style={authStyles.container}>
+        <View style={authStyles.logo_container}>
+          <Image 
+            style={authStyles.logo}
+            source={require('@assets/images/icons/intro.svg')}
+          />
+        </View>
         <View style={authStyles.card}>
-          <Text style={authStyles.title}>Login</Text>
           <TextInput
             style={authStyles.input}
             placeholder="Email"
@@ -68,10 +74,15 @@ const Auth = () => {
             onChangeText={setPassword}
             secureTextEntry
           />
-          <Button title="Log In" onPress={handleLogin} />
+          <TouchableOpacity
+            onPress={handleLogin}
+            style={authStyles.login_button}
+          >
+            <Text style={authStyles.text}>Login</Text>
+          </TouchableOpacity>
         </View>
-      </View>
-    </AuthLayout> 
+      </View>  
+    </AuthLayout>
   );
 };
 

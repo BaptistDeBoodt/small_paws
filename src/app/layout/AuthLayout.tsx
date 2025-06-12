@@ -1,5 +1,5 @@
 import { ScrollView } from 'react-native';
-import { globalStyles } from '@styles/styles';
+import { authStyles, globalStyles } from '@styles/styles';
 import { ReactNode } from 'react';
 
 type AuthLayoutProps = {
@@ -9,7 +9,7 @@ type AuthLayoutProps = {
 const AuthLayout = ({ children }: AuthLayoutProps) => {
   return (
     <>
-    <ScrollView style={globalStyles.container}>
+    <ScrollView style={authStyles.overlap}>
         {children}
     </ScrollView>
     </>
