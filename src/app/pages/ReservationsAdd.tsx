@@ -6,7 +6,7 @@ import PageLayout from '@layout/PageLayout';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { globalStyles } from '@styles/styles';
 import { editProfileStyles } from '@styles/styles';
-import { createShiftStyles } from '@styles/styles';
+import { createShiftStyles, colors } from '@styles/styles';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -180,6 +180,7 @@ const handleSave = async () => {
           <TouchableOpacity style={editProfileStyles.input}>
           <TextInput
             placeholder="Aantal crewleden"
+            placeholderTextColor={colors.orange_900}
             value={crew}
             onChangeText={(text) => {
               // Alleen 1-9 toestaan
@@ -196,6 +197,7 @@ const handleSave = async () => {
             <TextInput
               style={editProfileStyles.input}
               placeholder="Label"
+              placeholderTextColor={colors.orange_900}
               value={label}
               onChangeText={setLabel}
             />

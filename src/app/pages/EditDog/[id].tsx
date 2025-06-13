@@ -4,7 +4,7 @@ import useDog from '@hooks/Dogs/useDog';
 import useUpdateDog from '@hooks/Dogs/useUpdateDog';
 import useImagePicker from '@hooks/Images/useImagePicker';
 import PageLayout from '@layout/PageLayout';
-import { editProfileStyles, globalStyles } from '@styles/styles';
+import { editProfileStyles, globalStyles, colors } from '@styles/styles';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Alert, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -103,12 +103,14 @@ const DogEdit = () => {
           <TextInput
             style={editProfileStyles.input}
             placeholder="Naam"
+            placeholderTextColor={colors.orange_900}
             value={name}
             onChangeText={setName}
           />
           <TextInput
             style={editProfileStyles.input}
             placeholder="Ras"
+            placeholderTextColor={colors.orange_900}
             value={breed}
             onChangeText={setBreed}
           />
@@ -158,6 +160,7 @@ const DogEdit = () => {
           <TextInput
             style={editProfileStyles.input}
             placeholder="Level (1-3)"
+            placeholderTextColor={colors.orange_900}
             value={level}
             onChangeText={text => {
               if (/^[1-3]?$/.test(text)) setLevel(text);
@@ -169,6 +172,7 @@ const DogEdit = () => {
           <TextInput
             style={editProfileStyles.input}
             placeholder="Referentie (nummer)"
+            placeholderTextColor={colors.orange_900}
             value={reference}
             onChangeText={setReference}
             keyboardType="numeric"
@@ -177,6 +181,7 @@ const DogEdit = () => {
           <TextInput
             style={[editProfileStyles.input, editProfileStyles.long_input]}
             placeholder="Beschrijving"
+            placeholderTextColor={colors.orange_900}
             value={description}
             onChangeText={setDescription}
             multiline

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput } from "react-native";
-import { globalStyles, editProfileStyles } from "@styles/styles";
+import { globalStyles, editProfileStyles, colors } from "@styles/styles";
 import PageLayout from '@layout/PageLayout';
 import Button from '@components/Button';
 import useAddUser from '@hooks/Users/useAddUser';
@@ -46,6 +46,7 @@ const VolunteerAdd = () => {
           <TextInput
             style={editProfileStyles.input}
             placeholder="E-mail"
+            placeholderTextColor={colors.orange_900}
             value={formData.email}
             onChangeText={(text) => handleChange("email", text)}
             keyboardType="email-address"
@@ -54,6 +55,7 @@ const VolunteerAdd = () => {
           <TextInput
             style={editProfileStyles.input}
             placeholder="Wachtwoord"
+            placeholderTextColor={colors.orange_900}
             value={formData.password}
             onChangeText={(text) => handleChange("password", text)}
             secureTextEntry
@@ -61,12 +63,14 @@ const VolunteerAdd = () => {
           <TextInput
             style={editProfileStyles.input}
             placeholder="Voornaam"
+            placeholderTextColor={colors.orange_900}
             value={formData.first_name}
             onChangeText={(text) => handleChange("first_name", text)}
           />
           <TextInput
             style={editProfileStyles.input}
             placeholder="Achternaam"
+            placeholderTextColor={colors.orange_900}
             value={formData.last_name}
             onChangeText={(text) => handleChange("last_name", text)}
           />

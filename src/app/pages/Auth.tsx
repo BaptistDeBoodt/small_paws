@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Alert, AppState, AppStateStatus, View, TextInput, Text, Touchable, TouchableOpacity } from 'react-native';
 import { supabase } from '@utils/supabase';
 import Button from '@components/Button';
-import { globalStyles, authStyles } from '@styles/styles';
+import { globalStyles, authStyles, colors } from '@styles/styles';
 import AuthLayout from '@layout/AuthLayout';
 import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
@@ -62,6 +62,7 @@ const Auth = () => {
           <TextInput
             style={authStyles.input}
             placeholder="Email"
+            placeholderTextColor={colors.orange_900}
             value={email}
             onChangeText={setEmail}
             autoCapitalize="none"
@@ -70,6 +71,7 @@ const Auth = () => {
           <TextInput
             style={authStyles.input}
             placeholder="Password"
+            placeholderTextColor={colors.orange_900}
             value={password}
             onChangeText={setPassword}
             secureTextEntry

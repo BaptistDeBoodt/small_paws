@@ -5,7 +5,7 @@ import useShift from '@hooks/Shifts/useShift';
 import useUpdateShift from '@hooks/Shifts/useUpdateShift';
 import PageLayout from '@layout/PageLayout';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { editProfileStyles, globalStyles } from '@styles/styles';
+import { editProfileStyles, globalStyles, colors } from '@styles/styles';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Alert, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -175,6 +175,7 @@ const ShiftEdit = () => {
           <TextInput
             style={editProfileStyles.input}
             placeholder="Aantal crewleden"
+            placeholderTextColor={colors.orange_900}
             value={crew}
             onChangeText={text => {
               if (/^[1-9]?$/.test(text)) setCrew(text);
@@ -187,6 +188,7 @@ const ShiftEdit = () => {
             <TextInput
               style={editProfileStyles.input}
               placeholder="Label"
+              placeholderTextColor={colors.orange_900}
               value={label}
               onChangeText={setLabel}
             />

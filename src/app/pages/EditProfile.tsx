@@ -3,9 +3,8 @@ import Loading from '@components/Loading';
 import PageLayout from '@layout/PageLayout';
 import useUser from '@hooks/Users/useUser';
 import useUpdateUser from '@hooks/Users/useUpdateUser';
-import { globalStyles } from '@styles/globalStyles';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
-import { editProfileStyles } from '@styles/styles';
+import { editProfileStyles, globalStyles, colors } from '@styles/styles';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -81,18 +80,21 @@ const handleSave = async () => {
           <TextInput
             style={editProfileStyles.input}
             placeholder="Voornaam"
+            placeholderTextColor={colors.orange_900}
             value={first_name}
             onChangeText={setFirstName}
           />
           <TextInput
             style={editProfileStyles.input}
             placeholder="Familienaam"
+            placeholderTextColor={colors.orange_900}
             value={last_name}
             onChangeText={setLastName}
           />
           <TextInput
             style={editProfileStyles.input}
             placeholder="Telefoonnummer"
+            placeholderTextColor={colors.orange_900}
             value={phone}
             onChangeText={setPhone}
             keyboardType="numeric"
