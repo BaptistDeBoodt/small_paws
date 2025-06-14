@@ -27,7 +27,7 @@ const EditProfile = () => {
     if (profile) {
       setFirstName(profile.first_name || '');
       setLastName(profile.last_name || '');
-      setPhone(profile.phone || '');  // <-- hier: fallback naar lege string
+      setPhone(profile.phone || null);  // <-- hier: fallback naar lege string
       setBirthdate(profile.birthdate ? new Date(profile.birthdate) : null);
     }
   }, [profile]);

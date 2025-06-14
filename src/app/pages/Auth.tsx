@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, AppState, AppStateStatus, View, TextInput, Text, Touchable, TouchableOpacity } from 'react-native';
+import {
+  Alert,
+  AppState,
+  AppStateStatus,
+  View,
+  TextInput,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import { supabase } from '@utils/supabase';
-import Button from '@components/Button';
 import { globalStyles, authStyles, colors } from '@styles/styles';
 import AuthLayout from '@layout/AuthLayout';
-import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
+import { router } from 'expo-router';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [appState, setAppState] = useState(AppState.currentState);
 
-  const router = useRouter();
-
   useEffect(() => {
-    const subscription = AppState.addEventListener(
-      'change',
-      handleAppStateChange
-    );
+    const subscription = AppState.addEventListener('change', handleAppStateChange);
     return () => {
       subscription.remove();
     };
@@ -34,12 +36,18 @@ const Auth = () => {
         email,
         password,
       });
-      if (error) throw error;
 
-      await supabase.auth.getSession();
+      console.log("Login response:", { data, error });
 
-      router.push('/pages/Home');
+      if (error || !data.session) {
+        throw new Error(error?.message ?? 'No session returned');
+      }
 
+      if (data.session) {
+        router.replace('/pages/Home'); // of een andere route zoals '/home'
+      }
+
+      // Do not navigate manually; session will trigger UI update via _layout
     } catch (error: unknown) {
       if (error instanceof Error) {
         Alert.alert('Login failed', error.message);
@@ -53,7 +61,7 @@ const Auth = () => {
     <AuthLayout>
       <View style={authStyles.container}>
         <View style={authStyles.logo_container}>
-          <Image 
+          <Image
             style={authStyles.logo}
             source={require('@assets/images/icons/intro.svg')}
           />
@@ -76,14 +84,11 @@ const Auth = () => {
             onChangeText={setPassword}
             secureTextEntry
           />
-          <TouchableOpacity
-            onPress={handleLogin}
-            style={authStyles.login_button}
-          >
+          <TouchableOpacity onPress={handleLogin} style={authStyles.login_button}>
             <Text style={authStyles.text}>Login</Text>
           </TouchableOpacity>
         </View>
-      </View>  
+      </View>
     </AuthLayout>
   );
 };

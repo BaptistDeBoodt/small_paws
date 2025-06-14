@@ -8,14 +8,20 @@ import { globalStyles } from '@styles/globalStyles';
 import { supabase } from '@utils/supabase';
 import { useRouter } from 'expo-router';
 import { Text, View } from 'react-native';
+import { router } from 'expo-router';
+import { useQueryClient } from '@tanstack/react-query';
 
 const Profile = () => {
   const { profile, loading, error } = useUser();
-  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push('/pages/Auth');
+    const { error } = await supabase.auth.signOut();
+    queryClient.clear()
+    router.replace('/pages/Auth');
+    if (error) {
+      console.error('Logout error:', error.message);
+    }
   };
 
   if (loading) {
