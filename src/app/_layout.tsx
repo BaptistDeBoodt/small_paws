@@ -6,6 +6,7 @@ import Loading from '@components/Loading';
 import { supabase } from '@utils/supabase';
 import { globalStyles } from '@styles/styles';
 import Auth from '@pages/Auth';
+import { Redirect } from 'expo-router';
 import { UserProvider } from '@context/UserContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -65,7 +66,10 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
     <UserProvider initialSession={session}>
       <View key={session?.user?.id ?? 'no-session'} style={{ flex: 1 }}>
-        <Stack screenOptions={{ headerShown: false }} />
+        <Stack
+          initialRouteName="Index"
+          screenOptions={{ headerShown: false }}
+        />
       </View>
     </UserProvider>
   </QueryClientProvider>
